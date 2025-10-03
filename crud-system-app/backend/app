@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Resource;
+use Illuminate\Http\Request;
+
+class ResourceController extends Controller
+{
+    public function index()
+    {
+        return Resource::all();
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        return Resource::create($request->all());
+    }
+
+    public function show(Resource $resource)
+    {
+        return $resource;
+    }
+
+    public function update(Request $request, Resource $resource)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $resource->update($request->all());
+
+        return $resource;
+    }
+
+    public function destroy(Resource $resource)
+    {
+        $resource->delete();
+
+        return response()->noContent();
+    }
+}
